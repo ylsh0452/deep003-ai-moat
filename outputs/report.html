@@ -1,0 +1,51 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>
+  body { font-family: "Microsoft YaHei", "SimHei", sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.8; color: #333; }
+  h1 { border-bottom: 3px solid #2563eb; padding-bottom: 8px; }
+  h2 { border-bottom: 2px solid #93c5fd; padding-bottom: 6px; margin-top: 32px; }
+  h3 { margin-top: 24px; color: #1e40af; }
+  blockquote { border-left: 4px solid #2563eb; padding: 8px 16px; margin: 16px 0; background: #f0f7ff; color: #555; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+  td, th { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+  strong { color: #1e40af; }
+  pre { background: #f5f5f5; padding: 12px; border-radius: 4px; overflow-x: auto; }
+  hr { border: none; border-top: 1px solid #e5e7eb; margin: 24px 0; }
+  p { margin: 8px 0; }
+  a { color: #2563eb; }
+</style></head><body><p><h1>AI 信息壁垒报告</h1></p><p><blockquote>DEEP 营第一期 · 选修任务一</blockquote>
+>
+<blockquote>作者：ylsh0452</blockquote>
+>
+<blockquote>日期：2026-07-18</blockquote>
+>
+<blockquote>仓库：https://github.com/ylsh0452/deep003-ai-moat</blockquote></p><p><hr></p><p><h2>一、主题选择</h2></p><p><strong>AI 编程工具与 Agent：从代码补全到自主编码的演进，以及其中的个人机会</strong></p><p>选题依据：编程工具是学习者每天都在使用的东西，信息差直接转化为效率差和成本差；2026 年上半年这个赛道发生了计费模式转型、标准中立化等结构性变化，信息雷达的价值最大化。</p><p>聚焦范围：编程 Agent 产品、开源编码 Agent、国产方案、基准测试、计费与成本、MCP/AGENTS.md 标准、相关比赛机会。</p><p><hr></p><p><h2>二、信息来源记录（19 条，核心 15 条）</h2></p><p>信息来源覆盖六大类型：官方公告、学术论文、基准测试榜单、开源仓库、行业研究、标准与生态综述。全部标注链接、日期和一手/二手属性，可在 <a href="../elective1-ai-information-barrier/source_records.md">source_records.md</a> 中查看完整清单。</p><p>代表性信源：
+<li>GitHub 官方博客：Copilot 按量计费公告（2026-04）</li>
+<li>arXiv：2853 个仓库的 Agent 配置工程实证研究（2026-02/06）</li>
+<li>SWE-bench Verified 统一 harness 重测榜单（2026-02）</li>
+<li>OpenHands / Cline 开源仓库（最新 release 2026）</li>
+<li>DX 对 400+ 企业的 ROI 研究（2026-06）</li></p><p><hr></p><p><h2>三、核心信息分析（四条主线）</h2></p><p><h3>主线一：编程 Agent 能力演进——"补全工具"已死</h3></p><p>六大平台（Claude Code、Cursor、Copilot、Codex、Antigravity、Devin Desktop）已全部具备自主编码闭环。SWE-bench 头部模型集中在 70-77%，第 1 名与第 8 名仅差约 6 分——模型能力差距收敛，竞争的焦点从模型转向工作流（harness）。</p><p><h3>主线二：计费剧变——Token 成为新的成本单位</h3></p><p>GitHub Copilot 2026-06-01 起全面转向 AI Credits 按量计费，全员跟进。DX 研究显示中位 PR 吞吐量增益仅 7.76%，远低于厂商宣称的 3 倍。实际人均成本 $200-600/月。个人应对：国产低价 API（DeepSeek 约 ¥2/百万 Token）配合开源 Agent 可大幅压缩成本。</p><p><h3>主线三：开源与国产方案——个人门槛坍塌</h3></p><p>中国市场 2025 年 3.99 亿 → 2026 预计 11.73 亿元。通义灵码升级为 Qoder CN 矩阵，CLI 以 Apache 2.0 开源。国产模型（DeepSeek、Kimi、MiniMax）在 SWE-bench 上进入 70+ 区间，与国际一线的工程差距缩小到可接受范围。</p><p><h3>主线四：标准化——MCP 与 AGENTS.md 定义新基础设施</h3></p><p>MCP 于 2025-12 捐入 Linux 基金会 AAIF，SDK 月下载约 1 亿次，MCP 1.0 于 2026-06-24 发布。AGENTS.md 经实证确认为跨工具配置 Agent 行为的事实标准。个人机会：围绕标准协议做差异化（MCP Server 开发、Agent 配置工程）。</p><p><hr></p><p><h2>四、价值判断</h2></p><p><tr><td>层级</td><td>内容</td></tr>
+
+<tr><td>强信号</td><td>按量计费转型、MCP 中立化、模型分差收敛、PR 增益仅 7.76%、AGENTS.md 标准化</td></tr>
+<tr><td>中等信号</td><td>国产模型排名（需持续验证）、市场规模预测（方向可信、数字不必当真）</td></tr>
+<tr><td>噪音</td><td>极端账单个案、"淘汰程序员"叙事、厂商发布会效率宣称</td></tr></p><p>一个关键的交叉验证实例：同一基准（SWE-bench Verified）出现了两个"都对"的分数（88.6% vs 76.8%），差异来自评测口径（厂商最优 harness vs 官方统一 harness），比较数据前必须先对齐测量方法。</p><p><hr></p><p><h2>五、风险边界</h2></p><p><li><strong>时效性风险</strong>：价格信息半衰期以季度为单位，基准分数每月漂移</li>
+<li><strong>来源偏差</strong>：厂商分数普遍使用最优配置，需第三方复测验证</li>
+<li><strong>网络与合规</strong>：部分国际工具在国内直连不稳定</li>
+<li><strong>学习误区</strong>：追新工具 ≠ 学习；AI 写得出来 ≠ 你会了；信息收藏 ≠ 信息优势</li>
+<li><strong>报告边界</strong>：只覆盖中英文公开网络，未覆盖付费报告和闭门社区</li></p><p><hr></p><p><h2>六、行动建议</h2></p><p><tr><td>场景</td><td>核心行动</td><td>优先级</td></tr>
+
+<tr><td>学习</td><td>重心转向 Harness 工程 + 生成代码必审查 + 低成本搭建个人 Agent 环境</td><td>最高</td></tr>
+<tr><td>比赛</td><td>报名火山杯/GOAI Agent 赛道，用比赛倒逼作品化</td><td>高</td></tr>
+<tr><td>项目</td><td>做一个 MCP Server 小项目开源；给现有项目贡献 AGENTS.md；项目从 Day 1 加入成本监控</td><td>中</td></tr>
+<tr><td>创业</td><td>跟踪 Agent 成本治理工具、垂直场景 MCP Server、Agent 安全审计三个"卖铲子"方向</td><td>观察</td></tr></p><p><hr></p><p><h2>七、任务复盘</h2></p><p><h3>方法总结</h3>
+1. 定主题（"与我相关 × 变化够快 × 信息差够大"三条标准）
+2. 设检索矩阵（6 个维度 = 报告 4 条主线 + 补充角度 + 比赛机会）
+3. 记录来源（每条标注链接、时间、一手/二手属性，杜绝无来源引用）
+4. 过滤分层（五条标准 = 一手优先 / 结构性 > 事件性 / 有数字有方法 / 反直觉 / 可行动）
+5. 行动转化（每条建议标注依据编号，信息 → 判断 → 行动可回溯）</p><p><h3>信息雷达持续运转机制</h3>
+<tr><td>频率</td><td>动作</td></tr>
+
+<tr><td>每周 30 分钟</td><td>快扫固定信源，只记结构性变化</td></tr>
+<tr><td>每月 1 次</td><td>深读当月最重要变化 + 一次最小实验</td></tr>
+<tr><td>每季 1 次</td><td>复盘上季度判断准确率，校准过滤标准</td></tr></p><p><h3>最小实验补充</h3>
+已完成一次真实 bug 修复实验（deepseek-v4-pro API）：4/4 测试通过，单次 631 tokens，成本 < ¥0.01。实验结果附带发现：Windows 中文 JSON 编码坑、推理模型响应结构差异（thinking+text 双块）。完整过程文件保留在 `experiment/` 目录，可独立复现。</p><p><hr></p><p><h2>一句话结论</h2></p><p>信息壁垒的本质不是"知道得多"，而是<strong>固定的信源、明确的过滤标准、强制的行动转化</strong>三者形成闭环。
+</p></body></html>

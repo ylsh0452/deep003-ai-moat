@@ -32,7 +32,8 @@ deep003-ai-moat/
 │   ├── risk_check.md               # 风险边界：时效性/偏差/锁定/学习误区
 │   ├── action_plan.md              # 行动建议（学习/比赛/项目/创业四场景）
 │   ├── reflection.md               # 任务复盘 + 持续运转机制
-│   └── experiment_report.md        # 动手验证：低价 API 真实 bug 修复实验
+│   ├── experiment_report.md        # 动手验证：低价 API 真实 bug 修复实验
+│   └── ai_assistance_record.md      # AI 辅助整理记录（3 条 Prompt + 核查过程）
 ├── screenshots/                    # 信息来源原始截图（3 张+）
 ├── outputs/                        # 汇总报告
 │   └── ai_information_barrier_report.md

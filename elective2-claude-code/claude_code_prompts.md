@@ -1,48 +1,85 @@
-# Claude Code 使用的关键 Prompt
+# Claude Code 初始需求 Prompt
 
-## Prompt 1：生成仪表盘主页面
-
-```
-帮我做一个 AI Token 成本仪表盘页面，单个 HTML 文件，
-用 Chart.js CDN。功能：
-- 顶部 4 个统计卡片（总调用次数 / 总 Token / 总成本 / 日均成本）
-- 折线图显示每日 Token 消耗趋势
-- 饼图显示按模型的成本分布
-- 表格显示所有使用记录
-- 表单可新增记录（日期、模型下拉选择、输入/输出 token、描述）
-- 数据存 localStorage
-- 内置 5 条示例数据（来自我之前实验的真实数据）
-- 深色主题，风格简洁
-- 模型定价表内置在代码中（从公开定价页汇总）
-```
-
-## Prompt 2：创建命令行日志脚本
+## Prompt 1：生成仪表盘主页面（首次输入）
 
 ```
-写一个 Node.js 脚本 log.js，用法：
-  node log.js "任务描述" input_tokens output_tokens [model]
-将记录写入 log.json 文件，并打印本次调用的 token 数和估算成本。
-默认模型 deepseek-v4-pro。定价表与仪表盘保持一致。
+我要做什么：
+做一个 AI Token 成本仪表盘页面。
+
+使用场景：
+每次用 AI API 完成任务后，我需要记录 Token 消耗，并定期回看趋势和成本。
+
+目标用户：
+我自己（个人开发者，预算 ¥50/月）。
+
+需要包含的内容：
+1. 顶部 4 个统计卡片：总调用次数、总 Token 消耗、总估算成本、日均成本
+2. 折线图：每日 Token 消耗趋势（X 轴日期，Y 轴 Token 数）
+3. 饼图：按模型（deepseek/claude/gpt/qwen/kimi）的成本分布
+4. 使用记录表格：日期、模型、输入 Token、输出 Token、总计、估算成本、任务描述
+5. 录入表单：日期选择器、模型下拉框、输入/输出 Token 输入框、任务描述输入框、提交按钮
+6. 数据存储在浏览器 localStorage
+7. 内置 5 条示例数据（来自我的真实实验）
+
+希望的页面或文件结构：
+单个 HTML 文件（内联 CSS 和 JS），用 Chart.js CDN
+
+风格要求：
+深色主题，简洁，专业感，不要花哨
+
+不需要做什么：
+- 不需要后端服务器
+- 不需要数据库
+- 不需要登录功能
+- 不需要移动端适配（桌面优先）
+
+最终希望输出什么：
+一个浏览器可直接打开的 index.html
 ```
 
-## Prompt 3：修复截图路径错误
+## Prompt 2：命令行日志脚本
 
 ```
-Edge headless 截图时报错：
-Failed to write file ... 系统找不到指定的路径
+我要做一个 Node.js 命令行脚本 log.js。
+
+使用场景：在终端完成 AI API 调用后，快速记录 Token 消耗，不用打开网页。
+
+用法：node log.js "任务描述" input_tokens output_tokens [model]
+默认模型：deepseek-v4-pro
+
+需要做的事：
+1. 接收命令行参数（描述、input、output、model）
+2. 将记录追加写入 log.json
+3. 根据内置定价表计算本次调用成本
+4. 打印确认信息（任务描述、token 数、成本）
+
+定价表与仪表盘（index.html）保持一致。
+
+最终输出：log.js 文件
 ```
 
-Claude Code 分析后确认 `screenshots/` 目录不存在，执行 `mkdir -p` 后解决。
-
-## Prompt 4：修复 git submodule 问题
+## Prompt 3：修复截图路径
 
 ```
-git push 之后 cost-dashboard 在 GitHub 上点不开，
-显示为一个文件夹图标带箭头
+运行截图命令时遇到报错：
+
+Failed to write file D:/wadfaf/cost-dashboard/screenshots/dashboard.png:
+系统找不到指定的路径。 (0x3)
+
+帮我修复。
 ```
 
-Claude Code 判断是 git 将内层 `.git/` 目录识别为 submodule。解决方案：删除内层 `.git/` → 重新 add → commit → push。
+## Prompt 4：修复 git submodule
+
+```
+git push 后，GitHub 上 cost-dashboard 目录显示为带箭头的文件夹图标，
+点击无法打开。帮我检查并修复。
+```
+
+---
 
 ## AI 辅助说明
 
-所有代码文件（index.html、log.js）由 Claude Code 一次性生成，后续只做了参数微调（截图路径、虚拟时间预算）。README 和 TASK_REPORT 由 Claude Code 按我的需求描述起草。所有内容均经过我逐项验证（浏览器打开确认图表渲染、命令行执行 log.js 确认打印正确）。
+- 所有 Prompt 由我口述需求，Claude Code 整理为结构化的工程描述
+- 生成的代码（index.html、log.js）均经过我本地验证（浏览器打开、命令行执行）
+- README、过程记录等文档由 Claude Code 起草，我逐项确认内容准确后提交

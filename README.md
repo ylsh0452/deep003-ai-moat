@@ -37,7 +37,20 @@ deep003-ai-moat/
 ├── screenshots/                    # 信息来源原始截图（3 张+）
 ├── outputs/                        # 汇总报告
 │   └── ai_information_barrier_report.md
-└── experiment/                     # 实验过程文件（可复现）
+├── experiment/                     # 实验过程文件（可复现）
+├── elective2-claude-code/          # 选修任务二：过程记录
+│   ├── problem_description.md
+│   ├── claude_code_prompts.md
+│   ├── process_record.md
+│   ├── error_fix_record.md
+│   ├── final_explanation.md
+│   └── reflection.md
+└── cost-dashboard/                 # 选修任务二：AI Token 成本仪表盘
+    ├── README.md
+    ├── project/index.html
+    ├── project/log.js
+    ├── outputs/final_result.md
+    └── screenshots/dashboard.png
     ├── buggy.js
     ├── fixed.js
     ├── test.js

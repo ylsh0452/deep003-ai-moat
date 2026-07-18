@@ -1,6 +1,6 @@
 # 08 · 最小实验：用低价国产 API 完成一次真实 bug 修复
 
-> 对应 [06-行动建议.md](06-行动建议.md) 场景一第 3 条、[07-任务复盘.md](07-任务复盘.md) 中"缺少动手验证"的补课。实验日期：2026-07-18。所有过程文件保留在 [experiment/](experiment/) 目录，可完整复现。
+> 对应 [action_plan.md](action_plan.md) 场景一第 3 条、[reflection.md](reflection.md) 中"缺少动手验证"的补课。实验日期：2026-07-18。所有过程文件保留在 [experiment/](experiment/) 目录，可完整复现。
 
 ## 实验目的
 

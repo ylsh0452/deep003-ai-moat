@@ -1,6 +1,10 @@
 # AI 信息雷达：AI 编程工具与 Agent 的演进观察
 
-> 选修任务「AI 信息壁垒报告」提交仓库。目标：建立个人 AI 信息雷达，证明信息筛选、价值判断和机会识别能力。
+> **DEEP 营第一期 · 选修任务一：AI 信息壁垒报告**
+>
+> 目标：建立个人 AI 信息雷达，证明信息筛选、价值判断和机会识别能力。
+
+---
 
 ## 主题
 
@@ -13,22 +17,55 @@
 3. 开源与国产方案的崛起（降低个人使用门槛）
 4. 标准化进程（MCP / AGENTS.md）与由此产生的机会窗口
 
-## 仓库结构
+---
 
-| 文件 | 内容 |
+## 目录结构
+
+```
+deep003-ai-moat/
+├── README.md
+├── elective1-ai-information-barrier/
+│   ├── topic_selection.md          # 主题选择与信息雷达定义
+│   ├── source_records.md           # 15+ 条信息来源记录（链接/日期/类型）
+│   ├── information_analysis.md     # 4 条主线的核心信息分析
+│   ├── opportunity_judgement.md    # 价值判断：信号/噪音分层与过滤标准
+│   ├── risk_check.md               # 风险边界：时效性/偏差/锁定/学习误区
+│   ├── action_plan.md              # 行动建议（学习/比赛/项目/创业四场景）
+│   ├── reflection.md               # 任务复盘 + 持续运转机制
+│   └── experiment_report.md        # 动手验证：低价 API 真实 bug 修复实验
+├── screenshots/                    # 信息来源原始截图（3 张+）
+├── outputs/                        # 汇总报告
+│   └── ai_information_barrier_report.md
+└── experiment/                     # 实验过程文件（可复现）
+    ├── buggy.js
+    ├── fixed.js
+    ├── test.js
+    ├── body.json
+    └── response.json
+```
+
+---
+
+## 快速导航
+
+| 必读项 | 文件 |
 |---|---|
-| [01-主题选择.md](01-主题选择.md) | 为什么选这个主题、聚焦范围、信息雷达的定义 |
-| [02-信息来源记录.md](02-信息来源记录.md) | 15 条信息源：链接、日期、类型、一句话摘要 |
-| [03-核心信息分析.md](03-核心信息分析.md) | 按 4 条主线归纳整理的核心信息 |
-| [04-价值判断.md](04-价值判断.md) | 哪些是真信号、哪些是噪音，以及判断依据 |
-| [05-风险边界.md](05-风险边界.md) | 信息时效性、厂商宣传偏差、依赖风险、学习误区 |
-| [06-行动建议.md](06-行动建议.md) | 对学习、比赛、项目、创业的具体可执行行动 |
-| [07-任务复盘.md](07-任务复盘.md) | 方法复盘：这套信息雷达如何持续运转 |
-| [08-最小实验.md](08-最小实验.md) | 动手验证：低价 API 真实 bug 修复实验（含可复现过程文件） |
+| 主题选择与雷达定义 | [topic_selection.md](elective1-ai-information-barrier/topic_selection.md) |
+| 信息来源记录 | [source_records.md](elective1-ai-information-barrier/source_records.md) |
+| 核心信息分析 | [information_analysis.md](elective1-ai-information-barrier/information_analysis.md) |
+| 价值判断 | [opportunity_judgement.md](elective1-ai-information-barrier/opportunity_judgement.md) |
+| 风险边界 | [risk_check.md](elective1-ai-information-barrier/risk_check.md) |
+| 行动建议 | [action_plan.md](elective1-ai-information-barrier/action_plan.md) |
+| 任务复盘 | [reflection.md](elective1-ai-information-barrier/reflection.md) |
+| 动手实验 | [experiment_report.md](elective1-ai-information-barrier/experiment_report.md) |
+| 汇总报告 | [ai_information_barrier_report.md](outputs/ai_information_barrier_report.md) |
+
+---
 
 ## 真实性与可检查性说明
 
-- 所有信息检索于 **2026-07-18**，每条信息在 [02-信息来源记录.md](02-信息来源记录.md) 中标注了原始链接、发布/更新时间和来源类型。
-- 信息源优先级：官方公告/文档 > 学术论文 > 可复现基准测试 > 开源仓库 > 行业媒体分析。二手媒体信息均在分析中注明"待交叉验证"。
-- 分析和判断部分是基于来源信息的整理与推断，推断处使用"我认为/我的判断"明确标出，与事实陈述区分。
+- 所有信息检索于 **2026-07-18**，每条信息在 `source_records.md` 中标注了原始链接、发布/更新时间和来源类型。
+- 信息源优先级：官方公告/文档 > 学术论文 > 可复现基准测试 > 开源仓库 > 行业媒体分析。二手媒体信息均在分析中注明"需交叉验证"。
+- 分析中的个人判断使用「我的判断」明确标出，与事实陈述区分。
+- 实验目录 `experiment/` 保留完整过程文件（请求体、原始 API 响应、修复前后代码），可独立复现验证。
 - AI 领域信息半衰期极短，本仓库内容代表 2026 年 7 月中旬的快照，价格、基准分数等数据请以官方最新页面为准。

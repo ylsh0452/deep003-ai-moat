@@ -26,4 +26,4 @@
 | 二手 | 行业媒体/社区 | 有事件时 | InfoQ、极客公园、雷峰网、掘金 |
 | 机会 | 比赛/活动聚合页 | 每月 | 火山引擎大赛页、高校竞赛通知 |
 
-过滤标准见 [04-价值判断.md](04-价值判断.md)。
+过滤标准见 [opportunity_judgement.md](opportunity_judgement.md)。

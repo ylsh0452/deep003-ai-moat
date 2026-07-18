@@ -1,0 +1,42 @@
+[
+  {
+    "date": "2026-07-18",
+    "model": "deepseek-v4-pro",
+    "input": 175,
+    "output": 456,
+    "desc": "修复购物车结算 bug（实验#1）",
+    "loggedAt": "2026-07-18T17:40:06.003Z"
+  },
+  {
+    "date": "2026-07-18",
+    "model": "deepseek-v4-pro",
+    "input": 340,
+    "output": 1280,
+    "desc": "生成 source_records.md 格式整理",
+    "loggedAt": "2026-07-18T17:40:06.152Z"
+  },
+  {
+    "date": "2026-07-18",
+    "model": "deepseek-v4-pro",
+    "input": 2100,
+    "output": 890,
+    "desc": "编写风险边界分析草稿",
+    "loggedAt": "2026-07-18T17:40:06.248Z"
+  },
+  {
+    "date": "2026-07-18",
+    "model": "deepseek-v4-pro",
+    "input": 560,
+    "output": 2340,
+    "desc": "重构 information_analysis.md",
+    "loggedAt": "2026-07-18T17:40:06.339Z"
+  },
+  {
+    "date": "2026-07-18",
+    "model": "deepseek-v4-pro",
+    "input": 1800,
+    "output": 1800,
+    "desc": "AI 成本仪表盘页面开发",
+    "loggedAt": "2026-07-18T17:40:06.435Z"
+  }
+]

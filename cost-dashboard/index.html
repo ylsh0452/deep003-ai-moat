@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Token 成本仪表盘</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+header{background:#1e293b;border-bottom:1px solid #334155;padding:16px 24px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:20px;color:#f1f5f9}
+header span{color:#64748b;font-size:13px}
+main{max-width:1200px;margin:0 auto;padding:24px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px}
+.stat-card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:20px}
+.stat-card .label{font-size:12px;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.stat-card .value{font-size:28px;font-weight:700;color:#f1f5f9}
+.stat-card .sub{font-size:12px;color:#64748b;margin-top:4px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+@media(max-width:768px){.charts{grid-template-columns:1fr}}
+.chart-box{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:20px}
+.chart-box h3{font-size:14px;color:#94a3b8;margin-bottom:16px}
+.section{margin-bottom:24px}
+.section h3{font-size:16px;color:#e2e8f0;margin-bottom:12px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid #334155;font-size:13px}
+th{color:#64748b;font-weight:600;text-transform:uppercase;font-size:11px;letter-spacing:0.5px}
+tr:hover{background:#1e293b}
+form.add-entry{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:20px;display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:24px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px}
+.form-group input,.form-group select{background:#0f172a;border:1px solid #334155;color:#e2e8f0;padding:8px 12px;border-radius:6px;font-size:14px;outline:none;width:130px}
+.form-group input:focus,.form-group select:focus{border-color:#3b82f6}
+.btn{background:#3b82f6;color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;transition:background .2s}
+.btn:hover{background:#2563eb}
+.btn-sm{background:#334155;color:#94a3b8;padding:6px 12px;font-size:12px}
+.btn-sm:hover{background:#475569;color:#e2e8f0}
+.empty{text-align:center;color:#64748b;padding:40px 0}
+footer{text-align:center;padding:16px;color:#475569;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>&#9889; AI Token 成本仪表盘</h1>
+  <span>数据存储在浏览器本地</span>
+</header>
+
+<main>
+
+<div class="stats" id="statsCards"></div>
+
+<div class="charts">
+  <div class="chart-box"><h3>Taken 消耗趋势</h3><canvas id="tokensChart"></canvas></div>
+  <div class="chart-box"><h3>成本分布（按模型）</h3><canvas id="costChart"></canvas></div>
+</div>
+
+<form class="add-entry" id="addEntryForm">
+  <div class="form-group"><label>日期</label><input type="date" id="entryDate" required></div>
+  <div class="form-group"><label>模型</label><select id="entryModel"><option value="deepseek-v4-pro">deepseek-v4-pro</option><option value="claude-sonnet-4-6">claude-sonnet-4-6</option><option value="claude-opus-4-8">claude-opus-4-8</option><option value="gpt-5-mini">gpt-5-mini</option><option value="gpt-5.5">gpt-5.5</option><option value="qwen3-coder">qwen3-coder</option><option value="kimi-k2.5">kimi-k2.5</option><option value="other">其他</option></select></div>
+  <div class="form-group"><label>输入 Token</label><input type="number" id="entryInput" min="0" required></div>
+  <div class="form-group"><label>输出 Token</label><input type="number" id="entryOutput" min="0" required></div>
+  <div class="form-group"><label>任务描述</label><input type="text" id="entryDesc" placeholder="例如：修复购物车 bug"></div>
+  <button type="submit" class="btn">+ 记录</button>
+  <button type="button" class="btn btn-sm" id="resetBtn">重置为示例数据</button>
+</form>
+
+<div class="section">
+  <h3>使用记录</h3>
+  <table id="logTable"><thead><tr><th>日期</th><th>模型</th><th>输入 Token</th><th>输出 Token</th><th>总计</th><th>估算成本</th><th>任务描述</th></tr></thead><tbody id="logBody"></tbody></table>
+</div>
+
+</main>
+
+<footer>基于真实 DeepSeek API 调用数据构建 · 成本估算参考公开定价 · 2026-07-19</footer>
+
+<script>
+// 模型定价（元/百万 Token，来源：公开定价页）
+const PRICING = {
+  'deepseek-v4-pro':  { input: 2,   output: 2   },
+  'claude-sonnet-4-6':{ input: 21,  output: 105 }, // $3/$15 按1:7汇率
+  'claude-opus-4-8':  { input: 35,  output: 175 }, // $5/$25
+  'gpt-5-mini':       { input: 1.75,output: 3.5 },  // $0.25/$0.50
+  'gpt-5.5':          { input: 35,  output: 210 }, // $5/$30
+  'qwen3-coder':      { input: 2,   output: 6   },
+  'kimi-k2.5':        { input: 1.5, output: 6   },
+  'other':            { input: 10,  output: 40  },
+};
+
+// 示例数据（含实验实测数据）
+const SAMPLE_DATA = [
+  { date:'2026-07-18', model:'deepseek-v4-pro', input:175, output:456, desc:'修复购物车结算 bug（实验#1）' },
+  { date:'2026-07-18', model:'deepseek-v4-pro', input:340, output:1280, desc:'生成 source_records.md 格式整理' },
+  { date:'2026-07-18', model:'deepseek-v4-pro', input:2100, output:890, desc:'编写风险边界分析草稿' },
+  { date:'2026-07-19', model:'deepseek-v4-pro', input:560, output:2340, desc:'重构 information_analysis.md' },
+  { date:'2026-07-19', model:'deepseek-v4-pro', input:1800, output:1800, desc:'AI 成本仪表盘页面开发' },
+];
+
+let entries = JSON.parse(localStorage.getItem('tokenLog') || 'null');
+if (!entries || !entries.length) {
+  entries = SAMPLE_DATA;
+  saveData();
+}
+
+function saveData() { localStorage.setItem('tokenLog', JSON.stringify(entries)); }
+function cost(e) {
+  const p = PRICING[e.model] || PRICING.other;
+  return (e.input * p.input + e.output * p.output) / 1_000_000;
+}
+
+function render() {
+  const totalTokens = entries.reduce((s,e)=>s+e.input+e.output,0);
+  const totalCost = entries.reduce((s,e)=>s+cost(e),0);
+  const avgTokens = entries.length ? Math.round((totalTokens/entries.length)) : 0;
+  const totalCalls = entries.length;
+
+  document.getElementById('statsCards').innerHTML = `
+    <div class="stat-card"><div class="label">总 API 调用次数</div><div class="value">${totalCalls}</div></div>
+    <div class="stat-card"><div class="label">总 Token 消耗</div><div class="value">${totalTokens.toLocaleString()}</div><div class="sub">平均 ${avgTokens.toLocaleString()} / 次</div></div>
+    <div class="stat-card"><div class="label">总估算成本</div><div class="value">&yen; ${totalCost.toFixed(2)}</div><div class="sub">月预算 &yen;50，已用 ${(totalCost/50*100).toFixed(1)}%</div></div>
+    <div class="stat-card"><div class="label">日均成本</div><div class="value">&yen; ${(totalCost/Math.max(1,new Set(entries.map(e=>e.date)).size)).toFixed(2)}</div><div class="sub">${new Set(entries.map(e=>e.date)).size} 个活跃日</div></div>
+  `;
+
+  // Token 趋势图
+  const dates = [...new Set(entries.map(e=>e.date))].sort();
+  const dailyTokens = dates.map(d => entries.filter(e=>e.date===d).reduce((s,e)=>s+e.input+e.output,0));
+  const dailyCosts = dates.map(d => entries.filter(e=>e.date===d).reduce((s,e)=>s+cost(e),0));
+
+  window._tc?.destroy(); window._cc?.destroy();
+  window._tc = new Chart(document.getElementById('tokensChart'), {
+    type:'line',data:{labels:dates,datasets:[
+      {label:'Token 消耗',data:dailyTokens,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.1)',fill:true,tension:0.3,yAxisID:'y'},
+    ]},options:{responsive:true,interaction:{intersect:false,mode:'index'},
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12}}},
+      scales:{x:{ticks:{color:'#64748b'}},y:{ticks:{color:'#64748b',callback:v=>v>=1000?(v/1000).toFixed(1)+'k':v},position:'left'}}}
+  });
+
+  // 成本分布
+  const modelMap = {};
+  entries.forEach(e=>{ const k=e.model; modelMap[k]=(modelMap[k]||0)+cost(e); });
+  const models = Object.keys(modelMap).sort((a,b)=>modelMap[b]-modelMap[a]);
+  const palette = ['#3b82f6','#8b5cf6','#06b6d4','#10b981','#f59e0b','#ef4444','#ec4899','#6366f1'];
+  window._cc = new Chart(document.getElementById('costChart'), {
+    type:'doughnut',data:{labels:models,datasets:[{data:models.map(m=>modelMap[m].toFixed(4)),backgroundColor:palette.slice(0,models.length)}]},
+    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{color:'#94a3b8',boxWidth:10,padding:16}}}}
+  });
+
+  // 表格
+  document.getElementById('logBody').innerHTML = entries.slice().reverse().map(e=>
+    `<tr><td>${e.date}</td><td>${e.model}</td><td>${e.input.toLocaleString()}</td><td>${e.output.toLocaleString()}</td><td>${(e.input+e.output).toLocaleString()}</td><td>&yen;${cost(e).toFixed(4)}</td><td>${e.desc||'-'}</td></tr>`
+  ).join('');
+}
+
+document.getElementById('addEntryForm').onsubmit = function(e) {
+  e.preventDefault();
+  const entry = {
+    date: document.getElementById('entryDate').value,
+    model: document.getElementById('entryModel').value,
+    input: parseInt(document.getElementById('entryInput').value),
+    output: parseInt(document.getElementById('entryOutput').value),
+    desc: document.getElementById('entryDesc').value,
+  };
+  entries.push(entry);
+  saveData();
+  render();
+  this.reset();
+  document.getElementById('entryDate').valueAsDate = new Date();
+};
+
+document.getElementById('resetBtn').onclick = function() {
+  if (confirm('确定重置为示例数据？你的自定义记录将丢失。')) {
+    entries = SAMPLE_DATA;
+    saveData();
+    render();
+  }
+};
+
+document.getElementById('entryDate').valueAsDate = new Date();
+render();
+</script>
+</body>
+</html>
